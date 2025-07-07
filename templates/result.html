@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Prediction Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f8ff;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2e8b57;
+        }
+        p {
+            font-size: 18px;
+        }
+        .btn {
+            background: #2e8b57;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #246b46;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Prediction Result</h2>
+        <p><strong>Crop:</strong> {{ crop }}</p>
+        <p><strong>Expected Price:</strong> ₹{{ price }}</p>
+        <p><strong>Forecasted Rainfall:</strong> {{ rainfall }} mm</p>
+        <p><strong>Suggestion:</strong> {{ suggestion }}</p>
+        <a class="btn" href="{{ url_for('predict') }}">Try Another Prediction</a>
+        <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>
