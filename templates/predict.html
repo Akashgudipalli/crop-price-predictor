@@ -1,52 +1,115 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Crop Price Predictor</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <script>
-    async function updateDistricts() {
-      const state = document.getElementById('state').value;
-      const response = await fetch('/get_districts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ state })
-      });
-      const data = await response.json();
-      const districtSelect = document.getElementById('district');
-      districtSelect.innerHTML = '';
-      data.districts.forEach(d => {
-        const option = document.createElement('option');
-        option.value = d;
-        option.text = d;
-        districtSelect.appendChild(option);
-      });
-    }
-  </script>
+    <title>Predict Crop Price</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0fff4;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .icon {
+            margin-right: 8px;
+            color: #2e7d32;
+        }
+    </style>
+    <script>
+        function updateDistricts() {
+            const state = document.getElementById("state").value;
+            fetch("/get_districts", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ state: state })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const districtDropdown = document.getElementById("district");
+                districtDropdown.innerHTML = "";
+                data.districts.forEach(district => {
+                    const option = document.createElement("option");
+                    option.text = district;
+                    option.value = district;
+                    districtDropdown.add(option);
+                });
+            });
+        }
+    </script>
 </head>
-<body class="bg">
-  <div class="form-container">
-    <h2>Crop Price Prediction</h2>
-    <form method="POST">
-      <select name="crop" required>
-        <option value="">Select Crop</option>
-        {% for crop in crops %}
-          <option value="{{ crop }}">{{ crop }}</option>
-        {% endfor %}
-      </select>
-      <select name="state" id="state" onchange="updateDistricts()" required>
-        <option value="">Select State</option>
-        {% for state in states %}
-          <option value="{{ state }}">{{ state }}</option>
-        {% endfor %}
-      </select>
-      <select name="district" id="district" required>
-        <option value="">Select District</option>
-      </select>
-      <button type="submit">Predict</button>
-    </form>
-    <p><a href="/logout">Logout</a></p>
-  </div>
+<body>
+    <div class="container">
+        <h2><i class="fas fa-leaf icon"></i>Crop Price Prediction</h2>
+        <form method="POST">
+            <label><i class="fas fa-wheat-awn icon"></i>Select Crop</label>
+            <select name="crop" required>
+                {% for crop in crops %}
+                    <option value="{{ crop }}">{{ crop }}</option>
+                {% endfor %}
+            </select>
+
+            <label><i class="fas fa-map icon"></i>Select State</label>
+            <select name="state" id="state" onchange="updateDistricts()" required>
+                {% for state in states %}
+                    <option value="{{ state }}">{{ state }}</option>
+                {% endfor %}
+            </select>
+
+            <label><i class="fas fa-location-dot icon"></i>Select District</label>
+            <select name="district" id="district" required>
+                <option value="">-- Select state first --</option>
+            </select>
+
+            <button type="submit"><i class="fas fa-rupee-sign icon"></i> Predict</button>
+        </form>
+    </div>
 </body>
 </html>

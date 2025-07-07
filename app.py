@@ -100,14 +100,21 @@ def predict():
         price = CROP_DATA[crop]['min_price'] - 200  # force lower price for testing suggestion
 
         # Suggestion logic based on crop's min price
-        if price < CROP_DATA[crop]['min_price']:
+        import random
+
+        min_price = CROP_DATA[crop]['min_price']
+        price = random.randint(min_price - 300, min_price + 500)
+
+        # Suggestion logic based on price
+        if price < min_price:
             suggested_crops = [
                 alt_crop for alt_crop, data in CROP_DATA.items()
                 if alt_crop.lower() != crop.lower() and data['min_price'] > price
             ][:3]
             suggestion_message = f"The price for {crop} is currently low. Consider growing: {', '.join(suggested_crops)}"
         else:
-            suggestion_message = f"{crop} is currently profitable to grow."
+            suggestion_message = f"The price for {crop} is currently good. You can proceed to grow it."
+
 
         return render_template('result.html', crop=crop, price=price, rainfall=total_rainfall, suggestion=suggestion_message)
 
@@ -120,4 +127,6 @@ def get_districts():
     return jsonify({'districts': districts})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)  # ✅ 4 spaces before this line
+
+

@@ -1,53 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crop Prediction Result</title>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f0f8ff;
-            padding: 20px;
-            color: #333;
+            background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+            padding: 40px;
         }
-        .container {
-            background: #fff;
-            border-radius: 12px;
-            padding: 30px;
+
+        .result-box {
             max-width: 600px;
             margin: auto;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
         }
+
         h2 {
-            color: #2e8b57;
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
         }
-        p {
+
+        .info {
             font-size: 18px;
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 5px solid #4caf50;
+            background: #f9fff9;
+            border-radius: 5px;
         }
-        .btn {
-            background: #2e8b57;
-            color: white;
-            border: none;
-            padding: 10px 20px;
+
+        .icon {
+            color: #388e3c;
+            margin-right: 8px;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-btn a {
             text-decoration: none;
-            font-size: 16px;
-            border-radius: 6px;
-            margin-top: 20px;
-            display: inline-block;
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
         }
-        .btn:hover {
-            background: #246b46;
+
+        .back-btn a:hover {
+            background-color: #388e3c;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Prediction Result</h2>
-        <p><strong>Crop:</strong> {{ crop }}</p>
-        <p><strong>Expected Price:</strong> ₹{{ price }}</p>
-        <p><strong>Forecasted Rainfall:</strong> {{ rainfall }} mm</p>
-        <p><strong>Suggestion:</strong> {{ suggestion }}</p>
-        <a class="btn" href="{{ url_for('predict') }}">Try Another Prediction</a>
-        <a class="btn" href="{{ url_for('logout') }}">Logout</a>
+    <div class="result-box">
+        <h2><i class="fas fa-chart-line icon"></i> Prediction Result</h2>
+        <div class="info"><i class="fas fa-leaf icon"></i>Crop: <strong>{{ crop }}</strong></div>
+        <div class="info"><i class="fas fa-rupee-sign icon"></i>Predicted Price: <strong>₹ {{ price }}</strong></div>
+        <div class="info"><i class="fas fa-cloud-rain icon"></i>Forecasted Rainfall: <strong>{{ rainfall }} mm</strong></div>
+        <div class="info"><i class="fas fa-lightbulb icon"></i>Suggestion: <strong>{{ suggestion }}</strong></div>
+        <div class="back-btn">
+            <a href="{{ url_for('predict') }}"><i class="fas fa-arrow-left"></i> Back to Prediction</a>
+        </div>
     </div>
 </body>
 </html>
